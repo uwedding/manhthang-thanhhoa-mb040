@@ -105,7 +105,7 @@ let messages = []; // Chuyển sang `let`
 // Cấu hình
 const config = {
   displayDuration: 4000,
-  intervalTime: 8000,
+  intervalTime: 10000,
 };
 
 let autoInterval;
@@ -338,3 +338,31 @@ window.addEventListener("DOMContentLoaded", function () {
 //     }, 1000); // Ẩn animation 1s
 //   }, config.displayDuration - 1000); // Hiển thị đúng thời gian noti
 // }
+
+// Auto-click handler: khi người dùng scroll / swipe / click thì tự động trigger click
+(function () {
+  const TARGET_ID = "w-8sz882if";
+  let lastFired = 0;
+  const MIN_INTERVAL = 800; // ms — throttle để tránh spam
+
+  function triggerClickOnce() {
+    const now = Date.now();
+    if (now - lastFired < MIN_INTERVAL) return;
+    lastFired = now;
+    const el = document.getElementById(TARGET_ID);
+    if (!el) return;
+    try {
+      el.click();
+    } catch (err) {
+      // Fallback: dispatch synthetic mouse event
+      const evt = new MouseEvent("click", { bubbles: true, cancelable: true, view: window });
+      el.dispatchEvent(evt);
+    }
+  }
+
+  const events = ["click", "scroll", "touchstart", "touchmove", "pointerdown", "wheel"];
+  events.forEach((ev) => window.addEventListener(ev, triggerClickOnce, { passive: true }));
+
+  // Optional: expose a method for manual trigger/testing
+  window.__triggerAutoClick = triggerClickOnce;
+})();
