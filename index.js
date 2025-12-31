@@ -26,6 +26,14 @@ const GOOGLE_SCRIPT_URL_THAM_DU =
   "https://script.google.com/macros/s/AKfycbwQYntHJiJ_Cm3cyupt9iyEcPNhURZ9no0MPeWaDFMNu4KMxCdqZ-wiKBqj1zMELovEFw/exec";
 document.querySelector("#form").addEventListener("submit", function (e) {
   e.preventDefault();
+  // if (
+  //   !form.full_name.value ||
+  //   !form.text_input_2.value ||
+  //   !form.text_input_1.value
+  // ) {
+  //   console.log("Chưa điền đủ thông tin");
+  //   return;
+  // }
   const form = e.target; // Lấy form để reset sau này
   const formData = new FormData(form);
   const submitBtn = document.querySelector("#btn-submit");
@@ -105,7 +113,7 @@ let messages = []; // Chuyển sang `let`
 // Cấu hình
 const config = {
   displayDuration: 4000,
-  intervalTime: 10000,
+  intervalTime: 12000,
 };
 
 let autoInterval;
@@ -355,13 +363,26 @@ window.addEventListener("DOMContentLoaded", function () {
       el.click();
     } catch (err) {
       // Fallback: dispatch synthetic mouse event
-      const evt = new MouseEvent("click", { bubbles: true, cancelable: true, view: window });
+      const evt = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      });
       el.dispatchEvent(evt);
     }
   }
 
-  const events = ["click", "scroll", "touchstart", "touchmove", "pointerdown", "wheel"];
-  events.forEach((ev) => window.addEventListener(ev, triggerClickOnce, { passive: true }));
+  const events = [
+    "click",
+    "scroll",
+    "touchstart",
+    "touchmove",
+    "pointerdown",
+    "wheel",
+  ];
+  events.forEach((ev) =>
+    window.addEventListener(ev, triggerClickOnce, { passive: true })
+  );
 
   // Optional: expose a method for manual trigger/testing
   window.__triggerAutoClick = triggerClickOnce;

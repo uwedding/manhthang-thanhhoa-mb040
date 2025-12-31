@@ -17053,7 +17053,7 @@
                       (U = ""
                         .concat(
                           WebcakeScript.runtime.host,
-                          "https://www.ewedinvite.online/create_form_data/"
+                          "/create_form_data/"
                         )
                         .concat(N)),
                       (B = I.a.get("_p_session_id")),
